@@ -7,6 +7,7 @@ import com.genetic.bots.BotsHandling.Bot;
 import com.genetic.bots.Paint;
 import com.genetic.bots.WorldsHandling.World;
 
+// Uses with ChromosomeDisplay.class, bestbot frame
 public class ChromosomeBot extends BotInfo {
 
     public ChromosomeBot(Bot bot, float yOffset) {
@@ -19,6 +20,7 @@ public class ChromosomeBot extends BotInfo {
         bot = null;
     }
 
+    // Font initialization
     static {
         FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
         parameter.color = Color.DARK_GRAY;
@@ -30,10 +32,13 @@ public class ChromosomeBot extends BotInfo {
         pointsFont = generator.generateFont(parameter);
         generator.dispose();
     }
+
+    // Sets new bot (allways this bot is best)
     public void setBot(Bot bot) {
         this.bot = bot;
     }
 
+    // Draw bot-info frame
     @Override
     protected void render() {
         if(bot!=null)Paint.drawBotInfoForChromosome(botInfo,yOffset,nameFont,pointsFont,bot);

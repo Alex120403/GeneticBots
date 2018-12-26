@@ -21,6 +21,7 @@ public class PanelsHandler implements InputObserver {   // Main panels class
         selectedPanel = worldsPanel;
     }
 
+    // Draw all buttons and render() current panel
     public void render() {
         worldsPanel.drawButton();
         worldStatePanel.drawButton();
@@ -44,6 +45,7 @@ public class PanelsHandler implements InputObserver {   // Main panels class
         return false;
     }
 
+    // Runs when user clicks on the screen
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
         worldsPanel.touchDown(screenX,screenY,pointer,button);
@@ -72,10 +74,12 @@ public class PanelsHandler implements InputObserver {   // Main panels class
         return false;
     }
 
+    // Sets new panel-to-render
     public void setSelectedPanel(Panel selectedPanel) {
         this.selectedPanel = selectedPanel;
     }
 
+    // Returns object of Main.class
     public Main getMain() {
         return main;
     }

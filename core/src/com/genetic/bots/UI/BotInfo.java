@@ -17,6 +17,7 @@ public class BotInfo extends Actor implements Comparable<BotInfo> {
     protected static Texture botInfo = new Texture(Gdx.files.internal("botInfo.png")), selection = new Texture(Gdx.files.internal("selection.png"));
     protected static BitmapFont nameFont, pointsFont;
 
+    // Restores used memory
     public static void dispose() {
         nameFont.dispose();
         pointsFont.dispose();
@@ -24,6 +25,7 @@ public class BotInfo extends Actor implements Comparable<BotInfo> {
         selection.dispose();
     }
 
+    // Font initialization
     static {
         FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
         parameter.color = Color.DARK_GRAY;
@@ -36,6 +38,7 @@ public class BotInfo extends Actor implements Comparable<BotInfo> {
         generator.dispose();
     }
 
+    // Compares bot's fitness functions
     @Override
     public int compareTo(BotInfo o) {
         return bot.compareTo(o.bot);
@@ -47,14 +50,17 @@ public class BotInfo extends Actor implements Comparable<BotInfo> {
         bot.linkTo(this);
 
     }
+
     public BotInfo(){
 
     }
 
+    // Returns linked bot
     public Bot getBot() {
         return bot;
     }
 
+    // Draw bot-info frame
     protected void render() {
         Paint.drawBotInfo(botInfo,selection,yOffset,nameFont,pointsFont,bot);
     }

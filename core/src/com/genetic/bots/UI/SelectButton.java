@@ -11,6 +11,7 @@ import com.genetic.bots.InputObserver;
 import com.genetic.bots.Paint;
 
 public class SelectButton implements InputObserver, Disposable {
+
     // Constants
     private static final int SIZE_X = 80,SIZE_Y = 40,X_OFFSET = 30,Y_OFFSET = 670;
     private static final BitmapFont font;
@@ -20,6 +21,7 @@ public class SelectButton implements InputObserver, Disposable {
     private int x;
     private Texture texture;
 
+    // Font initialization
     static {
         FreeTypeFontGenerator freeTypeFontGenerator = new FreeTypeFontGenerator(Gdx.files.internal("9522.ttf"));
         FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
@@ -36,6 +38,7 @@ public class SelectButton implements InputObserver, Disposable {
         texture = new Texture(Gdx.files.internal(path));
     }
 
+    // Draw this button
     public void render() {
         Paint.draw(texture,x,Y_OFFSET);
     }

@@ -25,6 +25,7 @@ public class Menu implements Disposable {
     @Override
     public void dispose() {
         stage.dispose();
+        hint.dispose();
     }
 
     public Menu(final Main main) {
@@ -111,6 +112,8 @@ public class Menu implements Disposable {
         botsCountLabel.setY(botsCount.getY()+botsCount.getHeight());
         stage.addActor(botsCountLabel);
     }
+
+    // Draw all menu components
     public void render() {
 
         stage.draw();

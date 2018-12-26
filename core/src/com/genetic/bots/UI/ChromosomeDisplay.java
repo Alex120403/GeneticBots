@@ -21,6 +21,7 @@ public class ChromosomeDisplay implements Disposable {
     private BitmapFont font;
     public ChromosomeBot botInfo;
 
+    // Restores used memory
     @Override
     public void dispose() {
         box.dispose();
@@ -47,17 +48,20 @@ public class ChromosomeDisplay implements Disposable {
         botInfo = new ChromosomeBot();
     }
 
-    private void refreshLabels() {  // Refreshes all labels (sets new text based on new chromosome)
+    // Refreshes all labels (sets new text based on new chromosome)
+    private void refreshLabels() {
         for (int i = 0; i < labels.length; i++) {
             labels[i]=chromosome[i].getValue()+"";
         }
     }
 
+    // Sets new chromosome for display
     public void setChromosome(Gene[] newChromosome) {
         chromosome = newChromosome;
         refreshLabels();
     }
 
+    // Draw current chromosome content
     public void render() {
         botInfo.render();
         for (int i = 0; i < Math.sqrt(chromosome.length); i++) {
@@ -71,8 +75,9 @@ public class ChromosomeDisplay implements Disposable {
         }
 
     }
+
+    // Lights current bot's gene
     public void drawFlag() {
         Paint.draw(flag,X_ALIGNMENT + (7-(World.bestBot.operationFlag%8)) * Cell.CELL_SIZE, Y_ALIGNMENT + (7-((World.bestBot.operationFlag%64)/8)) * Cell.CELL_SIZE);
-
     }
 }

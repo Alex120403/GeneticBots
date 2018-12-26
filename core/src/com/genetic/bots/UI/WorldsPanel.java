@@ -5,11 +5,13 @@ public class WorldsPanel extends Panel {
         super(handler);
     }
 
+    // Runs with constructor
     @Override
     void init() {
         button = new SelectButton(this,0,"WorldsSelectButton.png");
     }
 
+    // Draw panel content
     @Override
     void render() {
 

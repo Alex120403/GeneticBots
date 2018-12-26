@@ -14,11 +14,16 @@ public abstract class Panel implements InputObserver {
 
     // Runs with constructor
     abstract void init();
+
+    // Draw panel content
     abstract void render();
+
+    // Draw button (use for all panels)
     void drawButton() {
         button.render();
     }
 
+    // Runs when user click on button
     void select() {
         handler.setSelectedPanel(this);
     }

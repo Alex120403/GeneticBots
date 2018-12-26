@@ -11,10 +11,17 @@ public class WorldStatePanel extends Panel {
     }
 
     @Override
+    public void dispose() {
+        button.dispose();
+    }
+
+    // Runs with constructor
+    @Override
     void init() {
         button = new SelectButton(this,1,"CurrentWorldSelectButton.png");
     }
 
+    // Draw panel content
     @Override
     void render() {
         if (chromosomeDisplay == null) {

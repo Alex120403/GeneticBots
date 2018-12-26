@@ -22,6 +22,7 @@ public class BotState implements InputObserver {
         }
     }
 
+    // Draw all bot-info frames
     public void render() {
         for (int i = infos.length-1; i >= 0; i--) {
             infos[i].render();
@@ -64,6 +65,7 @@ public class BotState implements InputObserver {
         return false;
     }
 
+    // Runs when user uses mouse scroll
     @Override
     public boolean scrolled(int amount) {
         if((infos[infos.length-1].yOffset+globalOffset)-SCROLL_OFFSET*amount<=0 && amount == -1 || amount == 1) {
@@ -74,11 +76,14 @@ public class BotState implements InputObserver {
         }
         return false;
     }
-    private void bubbleSorter(){     //МЕТОД ПУЗЫРЬКОВОЙ СОРТИРОВКИ
-        for (int out = infos.length - 1; out >= 1; out--){  //Внешний цикл
-            for (int in = 0; in < out; in++){       //Внутренний цикл
-                if(infos[in].getBot().getFitnessFunc() > infos[in + 1].getBot().getFitnessFunc())//Если порядок элементов нарушен
-                    toSwap(in, in + 1);             //вызвать метод, меняющий местами
+
+    // Default bubble sort
+    private void bubbleSorter(){
+        for (int out = infos.length - 1; out >= 1; out--){
+            for (int in = 0; in < out; in++){
+                if(infos[in].getBot().getFitnessFunc() >
+                infos[in + 1].getBot().getFitnessFunc())
+                    toSwap(in, in + 1);
             }
         }
         for (int i = 0; i < infos.length; i++) {
@@ -86,6 +91,7 @@ public class BotState implements InputObserver {
         }
     }
 
+    // Swap tho numbers (calls from bubbleSorter() method)
     private void toSwap(int i1, int i2) {
         BotInfo buffer = infos[i1];
         infos[i1] = infos[i2];

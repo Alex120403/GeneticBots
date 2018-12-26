@@ -5,11 +5,19 @@ public class BotsPanel extends Panel {
         super(handler);
     }
 
+    // Restores used memory
+    @Override
+    public void dispose() {
+        button.dispose();
+    }
+
+    // Runs with constructor
     @Override
     void init() {
         button = new SelectButton(this,2,"BotsSelectButton.png");
     }
 
+    // Draw panel content
     @Override
     void render() {
 

@@ -12,6 +12,7 @@ public abstract class Panel implements InputObserver {
         init();
     }
 
+    // Runs with constructor
     abstract void init();
     abstract void render();
     void drawButton() {

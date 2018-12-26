@@ -90,6 +90,12 @@ public class Paint implements Disposable, InputObserver {
         batch.end();
     }
 
+    public static void drawWorldPanelItem(Texture drawable, BitmapFont font, String worldName, int bestFitnessFuncOfAllTime, int populations) {
+        batch.begin();
+        batch.draw()
+        batch.end();
+    }
+
     public static void drawText(BitmapFont font,String string,float x,float y) {
         batch.begin();
         font.draw(batch,string,x,y);

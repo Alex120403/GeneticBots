@@ -19,6 +19,7 @@ public class Graph implements Disposable {
     private UIStage stage;
     private Label max,min;
 
+    // Restores used memory
     @Override
     public void dispose() {
         graphElement.dispose();
@@ -49,6 +50,7 @@ public class Graph implements Disposable {
         stage.addActor(max);
     }
 
+    // Add new population result for graph
     public void add(float value) {
         if(value>bestFitnessFuncOfAllTime) {
             bestFitnessFuncOfAllTime = (int) value;
@@ -59,6 +61,7 @@ public class Graph implements Disposable {
         if(bestFitnessFuncPerPopulation.size()>WIDTH)bestFitnessFuncPerPopulation.remove(0);
     }
 
+    // Draw all graph elements
     public void render() {
         for (int i = 0; i < WIDTH; i++) {
             Paint.drawGraphElement(graphElement,i,Y,bestFitnessFuncPerPopulation.get(bestFitnessFuncPerPopulation.size()-(WIDTH-i))/bestFitnessFuncOfAllTime);

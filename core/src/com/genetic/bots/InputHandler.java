@@ -7,6 +7,8 @@ import java.util.ArrayList;
 
 public class InputHandler implements InputProcessor {
     private int screenHeight;
+
+    // All observers take input info
     private static ArrayList<InputObserver> observers = new ArrayList<InputObserver>();
 
     public InputHandler() {
@@ -14,14 +16,17 @@ public class InputHandler implements InputProcessor {
         screenHeight = Gdx.graphics.getHeight();
     }
 
+    // Add T extends InputProcessor to observers
     public static void addToObservers(InputObserver observer){
         observers.add(observer);
     }
 
+    // Remove T extends InputProcessor from observers
     public static void removeFromObservers(InputObserver observer){
         observers.remove(observer);
     }
 
+    // Remove all observers
     public static void clear() {
         observers = new ArrayList<InputObserver>();
     }

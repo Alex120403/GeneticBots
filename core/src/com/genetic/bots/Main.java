@@ -18,6 +18,8 @@ public class Main extends ApplicationAdapter {
 	private boolean paused,started,stopped;
 	private PanelsHandler panelsHandler;
 
+
+	// Runs when program starts
 	@Override
 	public void create () {
 		menu = new Menu(this);
@@ -26,20 +28,24 @@ public class Main extends ApplicationAdapter {
 		panelsHandler = new PanelsHandler(this);
 	}
 
+	// Runs when user clicks on start button
 	public void start() {
 		started = true;
 		mainWorld = new World(null,Config.BOTS_COUNT);
 	}
 
+	// Runs if user clicks on pause button
 	public void paused() {
 		paused = true;
 	}
 
+	// TODO remove or update it
 	public void stop() {
 		stopped = true;
 		started = false;
 	}
 
+	// Draw current world and UI
 	@Override
 	public void render () {
 		Gdx.gl.glClearColor(0.9f, 0.95f, 1, 1);
@@ -53,7 +59,7 @@ public class Main extends ApplicationAdapter {
 		}
 		panelsHandler.render();
 	}
-	
+
 	@Override
 	public void dispose () {
 		Cell.dispose();

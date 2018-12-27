@@ -6,7 +6,6 @@ public class BotsPanel extends Panel {
     }
 
     // Restores used memory
-    @Override
     public void dispose() {
         button.dispose();
     }

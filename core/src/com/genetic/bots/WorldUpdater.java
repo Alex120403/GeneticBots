@@ -8,7 +8,6 @@ public class WorldUpdater extends Thread {
 
     public WorldUpdater(World world) {
         this.world = world;
-        setName("WorldUpdater");
     }
 
     @Override

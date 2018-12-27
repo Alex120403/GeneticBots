@@ -13,7 +13,7 @@ import java.util.ArrayList;
 
 public class Graph implements Disposable {
     public static final int WIDTH = 1175, HEIGHT = 105,X = 1175-WIDTH,Y = 0;
-    private Texture graphElement;
+    private static Texture graphElement;
     private ArrayList<Float> bestFitnessFuncPerPopulation = new ArrayList<Float>();
     private int bestFitnessFuncOfAllTime = 1;
     private UIStage stage;
@@ -26,14 +26,17 @@ public class Graph implements Disposable {
         stage.dispose();
     }
 
-    public Graph() {
-
+    static {
         // Creating graph element
         Pixmap gp = new Pixmap(1,1,Pixmap.Format.RGBA4444);
         gp.setColor(new Color(0.04f,0.04f,0.1f,0.3f));
         gp.fill();
         graphElement = new Texture(gp);
         gp.dispose();
+    }
+
+    public Graph() {
+
         for (int i = 0; i < WIDTH; i++) {
             add(0);
         }

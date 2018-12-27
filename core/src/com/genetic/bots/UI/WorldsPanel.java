@@ -1,6 +1,8 @@
 package com.genetic.bots.UI;
 
 public class WorldsPanel extends Panel {
+    private WorldsPanelItem[] items;
+
     public WorldsPanel(PanelsHandler handler) {
         super(handler);
     }
@@ -8,13 +10,19 @@ public class WorldsPanel extends Panel {
     // Runs with constructor
     @Override
     void init() {
+        items = new WorldsPanelItem[6];
         button = new SelectButton(this,0,"WorldsSelectButton.png");
+        for (int i = 0; i < items.length; i++) {
+            items[i] = new WorldsPanelItem(i);
+        }
     }
 
     // Draw panel content
     @Override
     void render() {
-
+        for (int i = 0; i < items.length; i++) {
+            items[i].render();
+        }
     }
 
     @Override

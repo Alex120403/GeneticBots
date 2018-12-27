@@ -14,9 +14,9 @@ import com.genetic.bots.Paint;
 import com.sun.scenario.effect.impl.sw.sse.SSEBlend_SRC_OUTPeer;
 
 public class Menu implements Disposable {
-    Slider botsCount,speed;
+    Slider speed;
     Button start,stop,pause;
-    Label botsCountLabel,botsCountMin,botsCountMax,speedLabel,javaHeap;
+    Label speedLabel,javaHeap;
     UIStage stage;
     Main main;
     int timer = 0;
@@ -63,29 +63,7 @@ public class Menu implements Disposable {
         javaHeap.setX(500);
         javaHeap.setY(50);
         stage.addActor(javaHeap);
-        botsCount = new Slider(8,256,8,false,skin);
-        botsCount.setY(30);
-        botsCount.setX(100);
-        botsCountMin = new Label("8",skin);
-        botsCountMin.setY(botsCount.getY());
-        botsCountMin.setX(botsCount.getX()-botsCountMin.getWidth());
-        stage.addActor(botsCountMin);
-        botsCountMax = new Label("256",skin);
-        botsCountMax.setY(botsCount.getY());
-        botsCountMax.setX(botsCount.getX()+botsCount.getWidth());
-        stage.addActor(botsCountMax);
 
-        botsCount.setValue(Config.BOTS_COUNT);
-        botsCount.addListener(new EventListener() {
-            @Override
-            public boolean handle(Event event) {
-                Config.BOTS_COUNT = (int)botsCount.getValue();
-                botsCountLabel.setText("Bots count: "+(int)botsCount.getValue());
-                return false;
-            }
-        });
-
-        stage.addActor(botsCount);
         start = new Button(skin);
         start.add("Start");
         start.addListener(new EventListener() {
@@ -107,10 +85,7 @@ public class Menu implements Disposable {
         stop.add("Stop");
         stop.setX(300);
         stage.addActor(stop);
-        botsCountLabel = new Label("Bots count: "+(int)botsCount.getValue(),skin);
-        botsCountLabel.setX(botsCount.getX());
-        botsCountLabel.setY(botsCount.getY()+botsCount.getHeight());
-        stage.addActor(botsCountLabel);
+
     }
 
     // Draw all menu components

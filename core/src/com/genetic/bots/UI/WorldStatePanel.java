@@ -1,8 +1,7 @@
 package com.genetic.bots.UI;
 
+import com.genetic.bots.Main;
 import com.genetic.bots.WorldsHandling.World;
-
-import static com.genetic.bots.WorldsHandling.World.bestBot;
 
 public class WorldStatePanel extends Panel {
     private static ChromosomeDisplay chromosomeDisplay;
@@ -10,7 +9,6 @@ public class WorldStatePanel extends Panel {
         super(handler);
     }
 
-    @Override
     public void dispose() {
         button.dispose();
     }
@@ -24,13 +22,16 @@ public class WorldStatePanel extends Panel {
     // Draw panel content
     @Override
     void render() {
-        if (chromosomeDisplay == null) {
-            chromosomeDisplay = new ChromosomeDisplay(handler.getMain().mainWorld.getBots()[0].getChromosome());
+        if(Main.worlds[0] != null && Main.getSelectedWorldID() != -1) {
+            if (chromosomeDisplay == null) {
+                chromosomeDisplay = new ChromosomeDisplay(Main.worlds[0].getBots()[0].getChromosome());
+            }
+
+            chromosomeDisplay.drawFlag();
+            chromosomeDisplay.render();
+            chromosomeDisplay.botInfo.setBot(Main.worlds[Main.getSelectedWorldID()].bestBot);
+            chromosomeDisplay.setChromosome(Main.worlds[Main.getSelectedWorldID()].bestBot.getChromosome());
         }
-        chromosomeDisplay.drawFlag();
-        chromosomeDisplay.render();
-        chromosomeDisplay.botInfo.setBot(handler.getMain().mainWorld.bestBot);
-        chromosomeDisplay.setChromosome(bestBot.getChromosome());
     }
     @Override
     public boolean keyDown(int keycode) {

@@ -47,7 +47,7 @@ public class Paint implements Disposable, InputObserver {
         if(bot == null) {
             batch.draw(texture, X_ALIGNMENT + x * Cell.CELL_SIZE, Y_ALIGNMENT + y * Cell.CELL_SIZE);
         }
-        else if(bot.equals(World.bestBot)){
+        else if(bot.equals(Main.worlds[Main.getSelectedWorldID()].bestBot)){
             batch.draw(texture, X_ALIGNMENT + x * Cell.CELL_SIZE, Y_ALIGNMENT + y * Cell.CELL_SIZE);
 
         }
@@ -90,9 +90,12 @@ public class Paint implements Disposable, InputObserver {
         batch.end();
     }
 
-    public static void drawWorldPanelItem(Texture drawable, BitmapFont font, String worldName, int bestFitnessFuncOfAllTime, int populations) {
+    public static void drawWorldPanelItem(Texture drawable, BitmapFont nameFont, BitmapFont stateFont, String worldName, long bestFitnessFuncOfAllTime, int populations,int order) {
+        int Y_OFFSET = 570-(order*(drawable.getHeight()+6));
+        int X_OFFSET = 30;
         batch.begin();
-        batch.draw()
+        batch.draw(drawable,X_OFFSET,Y_OFFSET);
+        stateFont.draw(batch,bestFitnessFuncOfAllTime+"",X_OFFSET+50,Y_OFFSET+20);
         batch.end();
     }
 

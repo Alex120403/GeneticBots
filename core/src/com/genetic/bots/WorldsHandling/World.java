@@ -7,6 +7,7 @@ import com.genetic.bots.BotsHandling.Bot;
 import com.genetic.bots.BotsHandling.BotFactory;
 import com.genetic.bots.UI.BotState;
 import com.genetic.bots.UI.ChromosomeDisplay;
+import com.genetic.bots.UI.WorldsPanelItem;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -18,19 +19,21 @@ public class World implements Disposable {
     // Constants
     static final int OPERATION_TIME = 100;
     static final float DEFAULT_MUTATE_PERCENTS = 1/8;
-    public static  int BOTS_COUNT;
+    public static int BOTS_COUNT;
 
     // Statement
     private int width,height;
     private BotFactory botFactory;
     private Bot[] bots;
-    private static Cell[][] map;
+    private Cell[][] map;
     private BotState botState;
     private int steps,sleepIterations;
     private WorldUpdater worldUpdater;
     private static Graph graph;
-    public static int aliveBots;
-    public static Bot bestBot;
+    public  int aliveBots;
+    public  Bot bestBot;
+    private String name;
+    private WorldsPanelItem link;
 
     private static MapGenerator generator;
 
@@ -39,7 +42,7 @@ public class World implements Disposable {
         graph.dispose();
     }
 
-    public World(Bot[] bots,int botsCount) {
+    public World(Bot[] bots, int botsCount, WorldsPanelItem toLink) {
         if(bots == null) {
             BOTS_COUNT = botsCount;
             botFactory = new BotFactory();
@@ -57,6 +60,13 @@ public class World implements Disposable {
             botState = new BotState(bots);
         }
 
+
+        link = toLink;
+
+        for (int i = 0; i < this.bots.length; i++) {
+            this.bots[i].setWorldID(link.getOrder());
+        }
+
         worldUpdater = new WorldUpdater(this);
         worldUpdater.start();
         aliveBots = BOTS_COUNT;
@@ -71,14 +81,14 @@ public class World implements Disposable {
         return b;
     }
 
-    public static byte getCellValue(int x, int y) {
+    public byte getCellValue(int x, int y) {
         return map[x][y].getContent();
     }
-    public static Cell getCell(int x, int y) {
+    public Cell getCell(int x, int y) {
         return map[x][y];
     }
 
-    public static void addRandomFire() {
+    public void addRandomFire() {
         byte rX;
         byte rY;
         do {
@@ -87,7 +97,7 @@ public class World implements Disposable {
         } while (map[rX][rY].getContent()!=Cell.TYPE_NOTHING);
         map[rX][rY].update(Cell.TYPE_FIRE);
     }
-    public static void addRandomHuman() {
+    public void addRandomHuman() {
         byte rX;
         byte rY;
         do {
@@ -120,7 +130,7 @@ public class World implements Disposable {
         BotFactory botFactory = new BotFactory();
         Bot[] bestBots = new Bot[bots.length/8];
         bubbleSorter();
-        graph.add((float)bots[0].getFitnessFunc());
+        if(Main.getSelectedWorldID() == link.getOrder()) graph.add((float)bots[0].getFitnessFunc());
         ArrayList<Bot> newBotsArrayList = new ArrayList<Bot>();
         byte multiply = 0;
         for (byte i = 0; i < bestBots.length; i++) {
@@ -137,8 +147,9 @@ public class World implements Disposable {
             }
         }
 
+        link.nextPopulation(bestBot.getFitnessFunc());
         worldUpdater.active = false;
-        Main.mainWorld = new World(bots,BOTS_COUNT);
+        Main.worlds[link.getOrder()] = new World(bots,BOTS_COUNT,link);
     }
 
     public Cell[][] getMap() {
@@ -154,6 +165,8 @@ public class World implements Disposable {
         }
         botState.render();
         graph.render();
+
+
 
     }
 
@@ -173,6 +186,7 @@ public class World implements Disposable {
             }
         }
         steps++;
+
     }
 
     private void bubbleSorter(){     //МЕТОД ПУЗЫРЬКОВОЙ СОРТИРОВКИ
@@ -190,7 +204,17 @@ public class World implements Disposable {
 
     }
 
+    public WorldsPanelItem getLink() {
+        return link;
+    }
+
     public Bot[] getBots() {
         return bots;
     }
+
+    public String getName() {
+        return name;
+    }
+
+
 }

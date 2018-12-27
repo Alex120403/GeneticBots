@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.utils.Disposable;
 import com.genetic.bots.BotsHandling.Gene;
+import com.genetic.bots.Main;
 import com.genetic.bots.Paint;
 import com.genetic.bots.WorldsHandling.Cell;
 import com.genetic.bots.WorldsHandling.World;
@@ -78,6 +79,6 @@ public class ChromosomeDisplay implements Disposable {
 
     // Lights current bot's gene
     public void drawFlag() {
-        Paint.draw(flag,X_ALIGNMENT + (7-(World.bestBot.operationFlag%8)) * Cell.CELL_SIZE, Y_ALIGNMENT + (7-((World.bestBot.operationFlag%64)/8)) * Cell.CELL_SIZE);
+        Paint.draw(flag,X_ALIGNMENT + (7-(Main.worlds[Main.getSelectedWorldID()].bestBot.operationFlag%8)) * Cell.CELL_SIZE, Y_ALIGNMENT + (7-((Main.worlds[Main.getSelectedWorldID()].bestBot.operationFlag%64)/8)) * Cell.CELL_SIZE);
     }
 }

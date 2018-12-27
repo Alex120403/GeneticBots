@@ -306,7 +306,11 @@ public class UIStage extends Stage implements InputObserver {
 
     @Override
     public void dispose() {
-        super.dispose();
+        try {
+            super.dispose();
+        } catch (Exception e) {
+
+        }
         white.dispose();
     }
 

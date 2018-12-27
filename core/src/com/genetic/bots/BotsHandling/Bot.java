@@ -1,10 +1,9 @@
 package com.genetic.bots.BotsHandling;
 
-import com.genetic.bots.Interaction;
+import com.genetic.bots.Main;
 import com.genetic.bots.UI.BotInfo;
 import com.genetic.bots.WorldsHandling.Cell;
 import com.genetic.bots.WorldsHandling.World;
-import com.sun.scenario.effect.impl.sw.sse.SSEBlend_SRC_OUTPeer;
 
 import java.io.Serializable;
 import java.util.Random;
@@ -28,10 +27,15 @@ public class Bot implements Comparable<Bot>, Serializable {
     public int operationFlag = 0,rotation;
     protected short x,y;
     protected int rescuedPeople,extinguishedFire,health = 80;
+    private int worldID = -1;
 
     // Can be created only by BotFactory
     protected Bot(Gene[] genes) {
         this.genes = genes;
+    }
+
+    public void setWorldID(int worldID) {
+        this.worldID = worldID;
     }
 
     protected void mutateOneGene() {
@@ -89,7 +93,6 @@ public class Bot implements Comparable<Bot>, Serializable {
     }
 
     public String getHealthString() {
-        health = (health);
         String res = "";
         if(health>=1000) {
             return (health/1000)+"."+((health/100)%10)+"K";
@@ -102,6 +105,8 @@ public class Bot implements Comparable<Bot>, Serializable {
     public void linkTo(BotInfo info) {
         this.info = info;
     }
+
+
 
     public String getName() {
         return name;
@@ -124,7 +129,11 @@ public class Bot implements Comparable<Bot>, Serializable {
         boolean isStepped = false;
         while (!isStepped && operationsCount<10) {
             operationsCount++;
-            isStepped = doOperation(genes[Math.abs(operationFlag%genes.length)].getValue());
+            try {
+                isStepped = doOperation(genes[Math.abs(operationFlag%genes.length)].getValue());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
         health--;
     }
@@ -133,7 +142,6 @@ public class Bot implements Comparable<Bot>, Serializable {
 
     private boolean doOperation(int operationId) {
 
-        glow = false;
         boolean isStepped = false;
         int deltaOperationFlag = 0;
         byte vectorX = 0, vectorY = 0;
@@ -173,32 +181,32 @@ public class Bot implements Comparable<Bot>, Serializable {
                     vectorY = 0;
                     break;
             }
-            if(World.getCellValue(x+vectorX,y+vectorY) == Cell.TYPE_NOTHING) {
+            if(Main.worlds[worldID].getCellValue(x+vectorX,y+vectorY) == Cell.TYPE_NOTHING) {
                 deltaOperationFlag+=5;
-                World.getCell(x,y).removeBot();
-                World.getCell(x+vectorX,y+vectorY).putBot(this);
+                Main.worlds[worldID].getCell(x,y).removeBot();
+                Main.worlds[worldID].getCell(x+vectorX,y+vectorY).putBot(this);
                 x+=vectorX;
                 y+=vectorY;
             }
-            else if(World.getCellValue(x+vectorX,y+vectorY) == Cell.TYPE_FIRE) {
+            else if(Main.worlds[worldID].getCellValue(x+vectorX,y+vectorY) == Cell.TYPE_FIRE) {
                 deltaOperationFlag+=1;
-                World.addRandomFire();
+                Main.worlds[worldID].addRandomFire();
                 die(x+vectorX,y+vectorY);
             }
-            else if(World.getCellValue(x+vectorX,y+vectorY) == Cell.TYPE_WALL) {
+            else if(Main.worlds[worldID].getCellValue(x+vectorX,y+vectorY) == Cell.TYPE_WALL) {
                 deltaOperationFlag+=2;
             }
-            else if(World.getCellValue(x+vectorX,y+vectorY) == Cell.TYPE_HUMAN) {
+            else if(Main.worlds[worldID].getCellValue(x+vectorX,y+vectorY) == Cell.TYPE_HUMAN) {
                 deltaOperationFlag+=4;
-                World.getCell(x,y).removeBot();
-                World.getCell(x+vectorX,y+vectorY).putBot(this);
-                World.addRandomHuman();
+                Main.worlds[worldID].getCell(x,y).removeBot();
+                Main.worlds[worldID].getCell(x+vectorX,y+vectorY).putBot(this);
+                Main.worlds[worldID].addRandomHuman();
                 health+=HEALING;
                 x+=vectorX;
                 y+=vectorY;
                 rescuedPeople++;
             }
-            else if(World.getCellValue(x+vectorX,y+vectorY) == Cell.TYPE_BOT) {
+            else if(Main.worlds[worldID].getCellValue(x+vectorX,y+vectorY) == Cell.TYPE_BOT) {
                 deltaOperationFlag+=3;
             }
         }
@@ -238,27 +246,27 @@ public class Bot implements Comparable<Bot>, Serializable {
                     vectorY = 0;
                     break;
             }
-            if(World.getCellValue(x+vectorX,y+vectorY) == Cell.TYPE_NOTHING) {
+            if(Main.worlds[worldID].getCellValue(x+vectorX,y+vectorY) == Cell.TYPE_NOTHING) {
                 deltaOperationFlag+=5;
             }
-            else if(World.getCellValue(x+vectorX,y+vectorY) == Cell.TYPE_FIRE) {
+            else if(Main.worlds[worldID].getCellValue(x+vectorX,y+vectorY) == Cell.TYPE_FIRE) {
                 deltaOperationFlag+=1;
-                World.getCell(x+vectorX,y+vectorY).update(Cell.TYPE_NOTHING);
+                Main.worlds[worldID].getCell(x+vectorX,y+vectorY).update(Cell.TYPE_NOTHING);
                 health+=HEALING;
-                World.addRandomFire();
+                Main.worlds[worldID].addRandomFire();
                 extinguishedFire++;
             }
-            else if(World.getCellValue(x+vectorX,y+vectorY) == Cell.TYPE_WALL) {
+            else if(Main.worlds[worldID].getCellValue(x+vectorX,y+vectorY) == Cell.TYPE_WALL) {
                 deltaOperationFlag+=2;
             }
-            else if(World.getCellValue(x+vectorX,y+vectorY) == Cell.TYPE_HUMAN) {
+            else if(Main.worlds[worldID].getCellValue(x+vectorX,y+vectorY) == Cell.TYPE_HUMAN) {
                 deltaOperationFlag+=4;
-                World.getCell(x+vectorX,y+vectorY).update(Cell.TYPE_NOTHING);
+                Main.worlds[worldID].getCell(x+vectorX,y+vectorY).update(Cell.TYPE_NOTHING);
                 rescuedPeople++;
                 health+=HEALING;
-                World.addRandomHuman();
+                Main.worlds[worldID].addRandomHuman();
             }
-            else if(World.getCellValue(x+vectorX,y+vectorY) == Cell.TYPE_BOT) {
+            else if(Main.worlds[worldID].getCellValue(x+vectorX,y+vectorY) == Cell.TYPE_BOT) {
                 deltaOperationFlag+=3;
             }
         }
@@ -297,19 +305,19 @@ public class Bot implements Comparable<Bot>, Serializable {
                     vectorY = 0;
                     break;
             }
-            if(World.getCellValue(x+vectorX,y+vectorY) == Cell.TYPE_NOTHING) {
+            if(Main.worlds[worldID].getCellValue(x+vectorX,y+vectorY) == Cell.TYPE_NOTHING) {
                 deltaOperationFlag+=5;
             }
-            else if(World.getCellValue(x+vectorX,y+vectorY) == Cell.TYPE_FIRE) {
+            else if(Main.worlds[worldID].getCellValue(x+vectorX,y+vectorY) == Cell.TYPE_FIRE) {
                 deltaOperationFlag+=1;
             }
-            else if(World.getCellValue(x+vectorX,y+vectorY) == Cell.TYPE_WALL) {
+            else if(Main.worlds[worldID].getCellValue(x+vectorX,y+vectorY) == Cell.TYPE_WALL) {
                 deltaOperationFlag+=2;
             }
-            else if(World.getCellValue(x+vectorX,y+vectorY) == Cell.TYPE_HUMAN) {
+            else if(Main.worlds[worldID].getCellValue(x+vectorX,y+vectorY) == Cell.TYPE_HUMAN) {
                 deltaOperationFlag+=4;
             }
-            else if(World.getCellValue(x+vectorX,y+vectorY) == Cell.TYPE_BOT) {
+            else if(Main.worlds[worldID].getCellValue(x+vectorX,y+vectorY) == Cell.TYPE_BOT) {
                 deltaOperationFlag+=3;
             }
         }
@@ -330,10 +338,10 @@ public class Bot implements Comparable<Bot>, Serializable {
     }
 
     private void die(int fireX,int fireY) {
-        World.getCell(x,y).removeBot();
-        World.getCell(fireX,fireY).update(Cell.TYPE_NOTHING);
+        Main.worlds[worldID].getCell(x,y).removeBot();
+        Main.worlds[worldID].getCell(fireX,fireY).update(Cell.TYPE_NOTHING);
         alive = false;
-        World.aliveBots--;
+        Main.worlds[worldID].aliveBots--;
     }
 
 
@@ -357,4 +365,5 @@ public class Bot implements Comparable<Bot>, Serializable {
     public void glow() {
         glow = true;
     }
+
 }

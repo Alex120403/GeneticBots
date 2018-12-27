@@ -12,11 +12,12 @@ import com.genetic.bots.WorldsHandling.World;
 
 public class Main extends ApplicationAdapter {
 	private Paint paint;
-	public static World mainWorld;
+	public static World[] worlds = new World[6];
 	private InputHandler inputHandler;
 	private Menu menu;
 	private boolean paused,started,stopped;
 	private PanelsHandler panelsHandler;
+	private static int selectedWorldID = -1;
 
 
 	// Runs when program starts
@@ -31,7 +32,7 @@ public class Main extends ApplicationAdapter {
 	// Runs when user clicks on start button
 	public void start() {
 		started = true;
-		mainWorld = new World(null,Config.BOTS_COUNT);
+		//mainWorld = new World(null,Config.BOTS_COUNT);
 	}
 
 	// Runs if user clicks on pause button
@@ -50,14 +51,15 @@ public class Main extends ApplicationAdapter {
 	public void render () {
 		Gdx.gl.glClearColor(0.9f, 0.95f, 1, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-		if (started && !paused && !stopped){
-			mainWorld.render();
+		if (selectedWorldID!= -1 && !stopped){
+			worlds[selectedWorldID].render();
 		}
 		menu.render();
 		if (Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT) && Gdx.input.isKeyPressed(Input.Keys.D)) {
 			Config.IS_DEVELOPER_MODE_ENABLED = true;
 		}
 		panelsHandler.render();
+
 	}
 
 	@Override
@@ -66,8 +68,10 @@ public class Main extends ApplicationAdapter {
 		BotInfo.dispose();
 		paint.dispose();
 		menu.dispose();
-		if(mainWorld!=null) {
-			mainWorld.dispose();
+		for (World world:worlds) {
+			if (world != null) {
+				world.dispose();
+			}
 		}
 	}
 
@@ -81,5 +85,14 @@ public class Main extends ApplicationAdapter {
 
 	public boolean isStopped() {
 		return stopped;
+	}
+
+	public static void setSelectedWorldID(int selectedWorldID1) {
+		selectedWorldID = selectedWorldID1;
+
+	}
+
+	public static int getSelectedWorldID() {
+		return selectedWorldID;
 	}
 }

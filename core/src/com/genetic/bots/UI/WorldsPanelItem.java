@@ -45,7 +45,7 @@ public class WorldsPanelItem implements InputObserver {
         InputHandler.addToObservers(this);
     }
 
-    // Draw ...
+    // Draw button "Create new world" or "Short world state"
     public void render() {
         if(order == 0 || linkedWorld!=null || Main.worlds[order-1]!=null){
             visible = true;
@@ -80,20 +80,24 @@ public class WorldsPanelItem implements InputObserver {
         }
     }
 
+    // Returns order
     public int getOrder() {
         return order;
     }
 
+    // Returns true if visible
     public boolean isVisible() {
         return visible;
     }
 
+    // Can set new bestFitnessFuncOfAllTime
     private void tryNewBestFitnessFunc(long ff) {
         if(ff>bestFitnessFuncOfAllTime) {
             bestFitnessFuncOfAllTime = ff;
         }
     }
 
+    // Run when linked world creates new population
     public void nextPopulation(long ff) {
         tryNewBestFitnessFunc(ff);
         populations++;

@@ -7,6 +7,8 @@ public class Gene {
         this.value = value;
     }
 
+    // Returns value of this gene.
+    // It shows what operation bot should do
     public byte getValue() {
         return value;
     }

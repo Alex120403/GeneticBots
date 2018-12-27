@@ -8,6 +8,8 @@ public class MapReader {
     public MapReader() {
 
     }
+
+    // Read map from *.txt file
     public Cell[][] read(String fileName){
         Cell[][] cells = null;
         try {

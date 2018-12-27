@@ -13,17 +13,20 @@ public class BotFactory {
 
     }
 
-    public Bot createNewBot() { // Creating new bot with random genes
+    // Creates new bot with random genes
+    public Bot createNewBot() {
         Gene[] genes = new Gene[Config.BOTS_MEMORY_SIZE];
 
+        // Generating random genes
         for (int i = 0; i < genes.length; i++) {
-            genes[i] = new Gene((byte) random.nextInt(64)); // Generating random genes
+            genes[i] = new Gene((byte) random.nextInt(64));
         }
 
         return new Bot(genes);
     }
 
-    public Bot mutate(Bot bot,float chanceToMutateAnotherOneGene) { // Mutate bot
+    // Changes 1 to ? bot's genes to random values
+    public Bot mutate(Bot bot,float chanceToMutateAnotherOneGene) {
         do {
             bot.mutateOneGene();
         } while (chanceToMutateAnotherOneGene > Math.random());
@@ -31,6 +34,7 @@ public class BotFactory {
         return bot;
     }
 
+    // Creation new bot with cloned chromosome of @param bot
     public Bot generateByChromosome(Bot bot) {
         return new Bot(bot.getChromosome().clone());
     }

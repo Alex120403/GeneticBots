@@ -10,6 +10,7 @@ public class WorldUpdater extends Thread {
         this.world = world;
     }
 
+    // Main loop for each world; Speed based on Config.SPEED value
     @Override
     public void run() {
         super.run();

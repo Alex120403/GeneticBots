@@ -34,14 +34,17 @@ public class Bot implements Comparable<Bot>, Serializable {
         this.genes = genes;
     }
 
+    // Sets bot's world id
     public void setWorldID(int worldID) {
         this.worldID = worldID;
     }
 
+    // Sets random value to one random gene
     protected void mutateOneGene() {
         genes[random.nextInt(genes.length)] = new Gene((byte) random.nextInt(64));
     }
 
+    // Returns bots fitness func (based on rescued people(10 points) and extinguished fire(6 points))
     public long getFitnessFunc() {
         if(!alive){
             return -1;
@@ -50,6 +53,7 @@ public class Bot implements Comparable<Bot>, Serializable {
         return (rescuedPeople)*BotFactory.POINTS_PER_SAVED_PEOPLE + (extinguishedFire*BotFactory.POINTS_PER_EXTINGUISHED_FIRE);
     }
 
+    // Returns parsed fitness func (e.g. 12500 -> 12.5K)
     public String getFitnessFuncString() {
         int ff = rescuedPeople*BotFactory.POINTS_PER_SAVED_PEOPLE + extinguishedFire*BotFactory.POINTS_PER_EXTINGUISHED_FIRE;
         if(ff>=1000000) {
@@ -63,35 +67,38 @@ public class Bot implements Comparable<Bot>, Serializable {
         }
     }
 
+    // Set new coordinates fot this bot
     public void setCoords(short x,short y){
         this.x = x;
         this.y = y;
     }
 
+    // Returns x posotionon in current world's map
     public short getX() {
         return x;
     }
 
-    public boolean isBest() {
-        return best;
-    }
-
-    public boolean isGlowing() {
-        return glow;
-    }
-
-    public Gene[] getChromosome() {
-        return genes;
-    }
-
+    // Returns y posotionon in current world's map
     public short getY() {
         return y;
     }
 
+    // Returns true if this bot has best fitness func in current population
+    public boolean isBest() {
+        return best;
+    }
+
+    // Returns chromosome
+    public Gene[] getChromosome() {
+        return genes;
+    }
+
+    // Returns health
     public int getHealth() {
         return health;
     }
 
+    // Returns parsed health (e.g. 1400 -> 1.4K)
     public String getHealthString() {
         String res = "";
         if(health>=1000) {
@@ -106,21 +113,30 @@ public class Bot implements Comparable<Bot>, Serializable {
         this.info = info;
     }
 
-
-
+    // Returns name of this bot
     public String getName() {
         return name;
     }
 
+    // Returns count of rescued people
     public int getRescuedPeople() {
         return rescuedPeople;
     }
 
+    // Returns count of extinguished fire
     public int getExtinguishedFire() {
         return extinguishedFire;
     }
 
-    public void makeStep() {  // Main bot method
+    /*
+      Main bot method.
+      Operations "Move", "Interact" breaks operations cycle.
+      If operations count > 10, operations cycle will be breaked.
+      Each step removes 1 health point. If health value is lower then 1, bot will die.
+      Every operation changes operation flag. Operation flag - number of gene,
+      which have an information about next operation.
+    */
+    public void makeStep() {
         operationFlag = operationFlag%64;
         if((health)<=0){
             die(x,y);
@@ -337,6 +353,7 @@ public class Bot implements Comparable<Bot>, Serializable {
         return (int)getFitnessFunc()-(int)o.getFitnessFunc();
     }
 
+    // Runs if bots health < 1
     private void die(int fireX,int fireY) {
         Main.worlds[worldID].getCell(x,y).removeBot();
         Main.worlds[worldID].getCell(fireX,fireY).update(Cell.TYPE_NOTHING);

@@ -15,7 +15,7 @@ public class Main extends ApplicationAdapter {
 	public static World[] worlds = new World[6];
 	private InputHandler inputHandler;
 	private Menu menu;
-	private boolean paused,started,stopped;
+	private boolean paused,started = true,stopped;
 	private PanelsHandler panelsHandler;
 	private static int selectedWorldID = -1;
 

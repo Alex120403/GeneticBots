@@ -147,7 +147,11 @@ public class World implements Disposable {
             }
         }
 
-        link.nextPopulation(bestBot.getFitnessFunc());
+        try {
+            link.nextPopulation(bestBot.getFitnessFunc());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         worldUpdater.active = false;
         Main.worlds[link.getOrder()] = new World(bots,BOTS_COUNT,link);
     }

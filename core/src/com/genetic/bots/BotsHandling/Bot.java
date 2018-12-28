@@ -147,8 +147,15 @@ public class Bot implements Comparable<Bot>, Serializable {
             operationsCount++;
             try {
                 isStepped = doOperation(genes[Math.abs(operationFlag%genes.length)].getValue());
-            } catch (Exception e) {
-                e.printStackTrace();
+            } catch (ArrayIndexOutOfBoundsException e) {
+                for (int i = 0; i < Main.worlds.length; i++) {
+                    for (int j = 0; j < Main.worlds[i].getBots().length; j++) {
+                        if(this.equals(Main.worlds[i].getBots()[j])) {
+                            setWorldID(i);
+                        }
+                    }
+                }
+                System.out.println(name+" has world's id -1...");
             }
         }
         health--;

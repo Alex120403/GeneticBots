@@ -14,13 +14,14 @@ public class WorldUpdater extends Thread {
     @Override
     public void run() {
         super.run();
+        try {
         while (active) {
             world.update();
-            try {
-                Thread.sleep(1024/Config.SPEED);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
+            Thread.sleep(1024/Config.SPEED);
+
             }
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
     }
 }

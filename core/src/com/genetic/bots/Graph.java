@@ -66,9 +66,15 @@ public class Graph implements Disposable {
 
     // Draw all graph elements
     public void render() {
-        for (int i = 0; i < WIDTH; i++) {
-            Paint.drawGraphElement(graphElement,i,Y,bestFitnessFuncPerPopulation.get(bestFitnessFuncPerPopulation.size()-(WIDTH-i))/bestFitnessFuncOfAllTime);
+        try {
+            for (int i = 0; i < WIDTH; i++) {
+                Paint.drawGraphElement(graphElement, i, Y, bestFitnessFuncPerPopulation.get(bestFitnessFuncPerPopulation.size() - (WIDTH - i)) / bestFitnessFuncOfAllTime);
+            }
+            stage.draw();
         }
-        stage.draw();
+        catch (Exception e){
+
+        }
+
     }
 }

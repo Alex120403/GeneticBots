@@ -19,13 +19,21 @@ public class WorldUpdater extends Thread {
     public void run() {
         super.run();
         try {
-        while (true) {
-            world.update();
-            Thread.sleep(1024/Config.SPEED);
-
+            while (true) {
+                world.update();
+                Thread.sleep(1024/Config.SPEED);
             }
-        } catch (InterruptedException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public void testWait() {
+        final long INTERVAL = 65536;
+        long start = System.nanoTime();
+        long end;
+        do {
+            end = System.nanoTime();
+        } while(start + INTERVAL >= end);
     }
 }

@@ -47,7 +47,7 @@ public class ChromosomeBot extends BotInfo {
     protected void render() {
         if(bot!=null){
             Paint.drawBotInfoForChromosome(botInfo,yOffset,nameFont,pointsFont,bot);
-            Paint.draw(crown,300,650);
+            Paint.draw(crown,227,626);
         }
 
     }

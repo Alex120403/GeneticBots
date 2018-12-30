@@ -46,18 +46,20 @@ public class World implements Disposable {
         if(bots == null) {
             BOTS_COUNT = botsCount;
             botFactory = new BotFactory();
+            generator = new MapGenerator(Config.DEGREE_OF_WALLS,Config.DEGREE_OF_HUMANS,Config.DEGREE_OF_FIRE);
+            map = generator.generateMap();
             this.bots = generateStarterBots(BOTS_COUNT);
-            botState = new BotState(this.bots);
+            //botState = new BotState(this.bots);
             addBotsToMap(map, this.bots);
             graph = new Graph();
             worldUpdater = new WorldUpdater(this);
             worldUpdater.start();
         }
         else {
-            map = Main.map.clone();
+            map = generator.generateMap();
             this.bots = bots;
             addBotsToMap(map, this.bots);
-            botState = new BotState(bots);
+            //botState = new BotState(bots);
             worldUpdater = wa;
             worldUpdater.setWorld(this);
         }
@@ -167,7 +169,7 @@ public class World implements Disposable {
                 map[i][j].render();
             }
         }
-        botState.render();
+        //botState.render();
         graph.render();
 
 
@@ -195,11 +197,11 @@ public class World implements Disposable {
 
     }
 
-    private void bubbleSorter(){     //МЕТОД ПУЗЫРЬКОВОЙ СОРТИРОВКИ
-        for (int out = bots.length - 1; out >= 1; out--){  //Внешний цикл
-            for (int in = 0; in < out; in++){       //Внутренний цикл
-                if(bots[in+1].getFitnessFunc() > bots[in].getFitnessFunc())//Если порядок элементов нарушен
-                    toSwap(in, in + 1);             //вызвать метод, меняющий местами
+    private void bubbleSorter(){
+        for (int out = bots.length - 1; out >= 1; out--){
+            for (int in = 0; in < out; in++){
+                if(bots[in+1].getFitnessFunc() > bots[in].getFitnessFunc())
+                    toSwap(in, in + 1);
             }
         }
     }

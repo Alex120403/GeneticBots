@@ -49,7 +49,9 @@ public class Paint implements Disposable, InputObserver {
         }
         else if(bot.equals(Main.worlds[Main.getSelectedWorldID()].bestBot)){
             batch.draw(texture, X_ALIGNMENT + x * Cell.CELL_SIZE, Y_ALIGNMENT + y * Cell.CELL_SIZE);
-
+        }
+        else {
+            batch.draw(texture, X_ALIGNMENT + x * Cell.CELL_SIZE+11, Y_ALIGNMENT + y * Cell.CELL_SIZE+11,4,4);
         }
         batch.end();
     }
@@ -74,12 +76,12 @@ public class Paint implements Disposable, InputObserver {
 
     public static void drawBotInfoForChromosome(Texture texture, float yOffset, BitmapFont nameFont, BitmapFont pointsFont,Bot bot) {
         float drawX = (texture.getWidth()-Y_ALIGNMENT_SHADOW)-18+145;
-        float drawY = Gdx.graphics.getHeight()-10-(yOffset+BotState.globalOffset) *((texture.getHeight()-Y_ALIGNMENT_SHADOW)+20)-texture.getHeight();
+        float drawY = Gdx.graphics.getHeight()-10-(yOffset+BotState.globalOffset) *((texture.getHeight()-Y_ALIGNMENT_SHADOW)+20)-texture.getHeight()-40;
         batch.begin();
         batch.draw(texture,drawX,drawY);
-        nameFont.draw(batch,bot.getName(),145+(texture.getWidth()-Y_ALIGNMENT_SHADOW)-18+(texture.getWidth()-Y_ALIGNMENT_SHADOW)/2-bot.getName().length()*3.8f,Gdx.graphics.getHeight()-5-(yOffset+BotState.globalOffset)*(((texture.getHeight()-Y_ALIGNMENT_SHADOW))+20)-10);
-        pointsFont.draw(batch,bot.getFitnessFuncString(),145+(texture.getWidth()-Y_ALIGNMENT_SHADOW)-10+(texture.getWidth()-Y_ALIGNMENT_SHADOW)/2-(bot.getFitnessFuncString()).length()*3.7f,Gdx.graphics.getHeight()-5-(yOffset+BotState.globalOffset)*(((texture.getHeight()-Y_ALIGNMENT_SHADOW))+20)-108);
-        pointsFont.draw(batch,bot.getHealthString(),145+(texture.getWidth()-Y_ALIGNMENT_SHADOW)-10+(texture.getWidth()-Y_ALIGNMENT_SHADOW)/2-(bot.getHealthString()).length()*3.7f,Gdx.graphics.getHeight()-5-(yOffset+BotState.globalOffset)*(((texture.getHeight()-Y_ALIGNMENT_SHADOW))+20)-135);
+        nameFont.draw(batch,bot.getName(),145+(texture.getWidth()-Y_ALIGNMENT_SHADOW)-18+(texture.getWidth()-Y_ALIGNMENT_SHADOW)/2-bot.getName().length()*3.8f,Gdx.graphics.getHeight()-5-(yOffset+BotState.globalOffset)*(((texture.getHeight()-Y_ALIGNMENT_SHADOW))+20)-10-40);
+        pointsFont.draw(batch,bot.getFitnessFuncString(),145+(texture.getWidth()-Y_ALIGNMENT_SHADOW)-10+(texture.getWidth()-Y_ALIGNMENT_SHADOW)/2-(bot.getFitnessFuncString()).length()*3.7f,Gdx.graphics.getHeight()-5-(yOffset+BotState.globalOffset)*(((texture.getHeight()-Y_ALIGNMENT_SHADOW))+20)-108-40);
+        pointsFont.draw(batch,bot.getHealthString(),145+(texture.getWidth()-Y_ALIGNMENT_SHADOW)-10+(texture.getWidth()-Y_ALIGNMENT_SHADOW)/2-(bot.getHealthString()).length()*3.7f,Gdx.graphics.getHeight()-5-(yOffset+BotState.globalOffset)*(((texture.getHeight()-Y_ALIGNMENT_SHADOW))+20)-135-40);
         batch.end();
 
     }

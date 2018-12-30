@@ -5,10 +5,8 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
-import com.genetic.bots.InputHandler;
-import com.genetic.bots.InputObserver;
-import com.genetic.bots.Main;
-import com.genetic.bots.Paint;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.genetic.bots.*;
 import com.genetic.bots.WorldsHandling.World;
 
 public class WorldsPanelItem implements InputObserver {
@@ -83,7 +81,7 @@ public class WorldsPanelItem implements InputObserver {
     // Run if user clicks on this button
     public void click() {
         if(linkedWorld == null) {
-            Main.worlds[order] = new World(null,32,this,null);
+            Main.worlds[order] = new World(null,Config.BOTS_COUNT,this,null);
             linkedWorld = Main.worlds[order];
             bestFitnessFuncOfAllTime = 0;
             populations = 0;

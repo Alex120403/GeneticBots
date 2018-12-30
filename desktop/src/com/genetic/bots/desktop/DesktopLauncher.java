@@ -5,6 +5,8 @@ import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 import com.genetic.bots.Main;
 
 public class DesktopLauncher {
+	public static LwjglApplication application;
+	public static Main main;
 	public static void main (String[] arg) {
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
 		config.width = 1280;
@@ -12,7 +14,8 @@ public class DesktopLauncher {
 
 		config.resizable = false;
 		config.title = "Genetic";
-		new LwjglApplication(new Main(), config);
 
+		main = new Main();
+		application = new LwjglApplication(main, config);
 	}
 }

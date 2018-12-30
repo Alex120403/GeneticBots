@@ -22,9 +22,9 @@ public class WorldStatePanel extends Panel {
     // Draw panel content
     @Override
     void render() {
-        if(Main.worlds[0] != null && Main.getSelectedWorldID() != -1) {
+        if(Main.getSelectedWorldID() != -1) {
             if (chromosomeDisplay == null) {
-                chromosomeDisplay = new ChromosomeDisplay(Main.worlds[0].getBots()[0].getChromosome());
+                chromosomeDisplay = new ChromosomeDisplay(Main.worlds[Main.getSelectedWorldID()].getBots()[0].getChromosome());
             }
 
             chromosomeDisplay.drawFlag();

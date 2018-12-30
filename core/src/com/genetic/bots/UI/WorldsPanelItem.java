@@ -12,21 +12,25 @@ import com.genetic.bots.Paint;
 import com.genetic.bots.WorldsHandling.World;
 
 public class WorldsPanelItem implements InputObserver {
-    private static final Texture createWorld, world, flash;
-    private Texture currentTexture;
+    private static final Texture createWorld, world, flash,startIcon,pause,delete;
     private int order,populations;
     private long bestFitnessFuncOfAllTime;
-    private boolean visible,flashing,click;
+    private boolean visible,flashing,click,start;
     private BitmapFont nameFont, stateFont;
     private World linkedWorld;
     int Y_OFFSET = 570;
     int X_OFFSET = 30;
 
+    //TODO dispose
     // Textures initialization
     static {
         createWorld = new Texture(Gdx.files.internal("createWorld.png"));
         world = new Texture(Gdx.files.internal("worldIcon.png"));
         flash = new Texture(Gdx.files.internal("createWorldFlash.png"));
+        startIcon = new Texture(Gdx.files.internal("start.png"));
+        pause = new Texture(Gdx.files.internal("pause.png"));
+        delete = new Texture(Gdx.files.internal("delete.png"));
+
     }
 
     public WorldsPanelItem(int order) {
@@ -56,7 +60,14 @@ public class WorldsPanelItem implements InputObserver {
             }
             else {
                 Paint.drawWorldPanelItem(world, nameFont, stateFont, linkedWorld.getName(), bestFitnessFuncOfAllTime, populations, order);
+                Paint.draw(delete,X_OFFSET+createWorld.getWidth()+4,Y_OFFSET-(order*(createWorld.getHeight()+6))+4);
+                if(start) {
+                    Paint.draw(pause,X_OFFSET+createWorld.getWidth()+4,Y_OFFSET-(order*(createWorld.getHeight()+6))+createWorld.getHeight()/2+4);
+                }
+                else {
+                    Paint.draw(startIcon,X_OFFSET+createWorld.getWidth()+4,Y_OFFSET-(order*(createWorld.getHeight()+6))+createWorld.getHeight()/2+4);
 
+                }
             }
             if (flashing) {
                 Paint.draw(flash, X_OFFSET, Y_OFFSET - (order * (flash.getHeight() + 6)));
@@ -72,8 +83,10 @@ public class WorldsPanelItem implements InputObserver {
     // Run if user clicks on this button
     public void click() {
         if(linkedWorld == null) {
-            linkedWorld = new World(null,32,this);
-            Main.worlds[order] = linkedWorld;
+            Main.worlds[order] = new World(null,32,this,null);
+            linkedWorld = Main.worlds[order];
+            bestFitnessFuncOfAllTime = 0;
+            populations = 0;
         }
         else {
             Main.setSelectedWorldID(order);
@@ -150,6 +163,23 @@ public class WorldsPanelItem implements InputObserver {
         if(flashing) {
             click = true;
         }
+        else if(linkedWorld!=null){
+            Y_OFFSET = 570-(order*(createWorld.getHeight()+6));
+            if(screenX>X_OFFSET+createWorld.getWidth() && screenX<X_OFFSET+createWorld.getWidth()+createWorld.getHeight()/2){
+                if(screenY>Y_OFFSET && screenY<Y_OFFSET+createWorld.getHeight()/2){
+                    linkedWorld.dispose();
+                    linkedWorld = null;
+                    Main.worlds[order] = null;
+                    if(Main.getSelectedWorldID() == order) {
+                        Main.setSelectedWorldID(-1);
+                    }
+                }
+                else if(screenY>Y_OFFSET+createWorld.getHeight()/2 && screenY<Y_OFFSET+createWorld.getHeight()){
+                    start = !start;
+                }
+            }
+            Y_OFFSET = 570;
+        }
         return false;
     }
 
@@ -207,5 +237,9 @@ public class WorldsPanelItem implements InputObserver {
     @Override
     public boolean scrolled(int amount) {
         return false;
+    }
+
+    public boolean isStart() {
+        return start;
     }
 }

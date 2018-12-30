@@ -16,7 +16,7 @@ public class MapGenerator {
         this.fire = fire;
     }
 
-    Cell[][] generateMap() {
+    public Cell[][] generateMap() {
         Cell[][] cells = new Cell[Config.MAP_WIDTH][Config.MAP_HEIGHT];
         for (int i = 0; i < Config.MAP_WIDTH; i++) {
             for (int j = 0; j < Config.MAP_HEIGHT; j++) {

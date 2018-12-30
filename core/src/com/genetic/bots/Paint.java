@@ -95,7 +95,7 @@ public class Paint implements Disposable, InputObserver {
         int X_OFFSET = 30;
         batch.begin();
         batch.draw(drawable,X_OFFSET,Y_OFFSET);
-        stateFont.draw(batch,"Best fitness func: "+TextFormat.coolFormat(bestFitnessFuncOfAllTime)+"\nPopulation: "+TextFormat.coolFormat(populations+1),X_OFFSET+50,Y_OFFSET+40);
+        stateFont.draw(batch,"Best score: "+TextFormat.coolFormat(bestFitnessFuncOfAllTime)+"\nPopulation: "+TextFormat.coolFormat(populations+1),X_OFFSET+70,Y_OFFSET+40);
         batch.end();
     }
 

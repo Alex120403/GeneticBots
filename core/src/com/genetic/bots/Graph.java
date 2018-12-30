@@ -22,8 +22,8 @@ public class Graph implements Disposable {
     // Restores used memory
     @Override
     public void dispose() {
-        graphElement.dispose();
-        stage.dispose();
+       // graphElement.dispose();
+       // stage.dispose();
     }
 
     static {

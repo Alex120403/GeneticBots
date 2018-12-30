@@ -39,27 +39,28 @@ public class World implements Disposable {
 
     @Override
     public void dispose() {
-        graph.dispose();
+        //graph.dispose();
     }
 
-    public World(Bot[] bots, int botsCount, WorldsPanelItem toLink) {
+    public World(Bot[] bots, int botsCount, WorldsPanelItem toLink,WorldUpdater wa) {
         if(bots == null) {
             BOTS_COUNT = botsCount;
             botFactory = new BotFactory();
-            generator = new MapGenerator(Config.DEGREE_OF_WALLS,Config.DEGREE_OF_HUMANS,Config.DEGREE_OF_FIRE);
-            map = generator.generateMap();
             this.bots = generateStarterBots(BOTS_COUNT);
             botState = new BotState(this.bots);
             addBotsToMap(map, this.bots);
             graph = new Graph();
+            worldUpdater = new WorldUpdater(this);
+            worldUpdater.start();
         }
         else {
-            map = generator.generateMap();
+            map = Main.map.clone();
             this.bots = bots;
             addBotsToMap(map, this.bots);
             botState = new BotState(bots);
+            worldUpdater = wa;
+            worldUpdater.setWorld(this);
         }
-
 
         link = toLink;
 
@@ -67,8 +68,7 @@ public class World implements Disposable {
             this.bots[i].setWorldID(link.getOrder());
         }
 
-        worldUpdater = new WorldUpdater(this);
-        worldUpdater.start();
+
         aliveBots = BOTS_COUNT;
         bestBot = this.bots[0];
     }
@@ -152,8 +152,8 @@ public class World implements Disposable {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        worldUpdater.active = false;
-        Main.worlds[link.getOrder()] = new World(bots,BOTS_COUNT,link);
+        Main.worlds[link.getOrder()] = new World(bots,BOTS_COUNT,link,worldUpdater);
+
     }
 
     public Cell[][] getMap() {
@@ -175,6 +175,8 @@ public class World implements Disposable {
     }
 
     public synchronized void update() {
+        if(!link.isStart()) return;
+
         for (int i = 0; i < bots.length; i++) {  // Main cycle
             if(bots[i].isAlive()) {
                 bots[i].makeStep();
@@ -219,6 +221,5 @@ public class World implements Disposable {
     public String getName() {
         return name;
     }
-
 
 }

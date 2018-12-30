@@ -1,6 +1,7 @@
 package com.genetic.bots.BotsHandling;
 
 import com.genetic.bots.Main;
+import com.genetic.bots.TextFormat;
 import com.genetic.bots.UI.BotInfo;
 import com.genetic.bots.WorldsHandling.Cell;
 import com.genetic.bots.WorldsHandling.World;
@@ -22,11 +23,10 @@ public class Bot implements Comparable<Bot>, Serializable {
     private String name = "Bot "+(random.nextInt(90000)+10000);
 
     // State
-    private transient boolean alive = true,best;
-    private transient boolean glow;
-    public int operationFlag = 0,rotation;
-    protected short x,y;
-    protected int rescuedPeople,extinguishedFire,health = 80;
+    private transient boolean alive = true;
+    public int operationFlag = 0;
+    protected short x,y,rotation;
+    protected long rescuedPeople,extinguishedFire,health = 80;
     private int worldID = -1;
 
     // Can be created only by BotFactory
@@ -55,16 +55,7 @@ public class Bot implements Comparable<Bot>, Serializable {
 
     // Returns parsed fitness func (e.g. 12500 -> 12.5K)
     public String getFitnessFuncString() {
-        int ff = rescuedPeople*BotFactory.POINTS_PER_SAVED_PEOPLE + extinguishedFire*BotFactory.POINTS_PER_EXTINGUISHED_FIRE;
-        if(ff>=1000000) {
-            return (ff/1000000)+"."+((ff/100000)%10000)+"M";
-        }
-        else if(ff>=1000) {
-            return (ff/1000)+"."+((ff/100)%10)+"K";
-        }
-        else {
-            return ff+"";
-        }
+        return TextFormat.coolFormat(rescuedPeople*BotFactory.POINTS_PER_SAVED_PEOPLE + extinguishedFire*BotFactory.POINTS_PER_EXTINGUISHED_FIRE);
     }
 
     // Set new coordinates fot this bot
@@ -83,30 +74,19 @@ public class Bot implements Comparable<Bot>, Serializable {
         return y;
     }
 
-    // Returns true if this bot has best fitness func in current population
-    public boolean isBest() {
-        return best;
-    }
-
     // Returns chromosome
     public Gene[] getChromosome() {
         return genes;
     }
 
     // Returns health
-    public int getHealth() {
+    public long getHealth() {
         return health;
     }
 
     // Returns parsed health (e.g. 1400 -> 1.4K)
     public String getHealthString() {
-        String res = "";
-        if(health>=1000) {
-            return (health/1000)+"."+((health/100)%10)+"K";
-        }
-        else {
-            return health+"";
-        }
+        return TextFormat.coolFormat(health);
     }
 
     public void linkTo(BotInfo info) {
@@ -119,12 +99,12 @@ public class Bot implements Comparable<Bot>, Serializable {
     }
 
     // Returns count of rescued people
-    public int getRescuedPeople() {
+    public long getRescuedPeople() {
         return rescuedPeople;
     }
 
     // Returns count of extinguished fire
-    public int getExtinguishedFire() {
+    public long getExtinguishedFire() {
         return extinguishedFire;
     }
 
@@ -155,7 +135,7 @@ public class Bot implements Comparable<Bot>, Serializable {
                         }
                     }
                 }
-                System.out.println(name+" has world's id -1...");
+                System.out.println(name+" has incorrect world's id!");
             }
         }
         health--;
@@ -384,10 +364,6 @@ public class Bot implements Comparable<Bot>, Serializable {
 
     public void addExtinguishedFire() {
         this.extinguishedFire++;
-    }
-
-    public void glow() {
-        glow = true;
     }
 
 }

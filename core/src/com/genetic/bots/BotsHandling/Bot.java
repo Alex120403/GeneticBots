@@ -127,6 +127,7 @@ public class Bot implements Comparable<Bot>, Serializable {
             operationsCount++;
             try {
                 isStepped = doOperation(genes[Math.abs(operationFlag%genes.length)].getValue());
+<<<<<<< HEAD
             } catch (ArrayIndexOutOfBoundsException e) {
                 for (int i = 0; i < Main.worlds.length; i++) {
                     for (int j = 0; j < Main.worlds[i].getBots().length; j++) {
@@ -136,6 +137,10 @@ public class Bot implements Comparable<Bot>, Serializable {
                     }
                 }
                 System.out.println(name+" has incorrect world's id!");
+=======
+            } catch (Exception e) {
+                e.printStackTrace();
+>>>>>>> parent of 9e12590... WorldsItem (85%...)
             }
         }
         health--;

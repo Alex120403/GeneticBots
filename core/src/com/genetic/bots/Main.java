@@ -19,7 +19,7 @@ public class Main extends ApplicationAdapter {
 	public static World[] worlds;
 	private InputHandler inputHandler;
 	private Menu menu;
-	private boolean paused,started = true,stopped;
+	private boolean paused,started,stopped;
 	private PanelsHandler panelsHandler;
 	private static int selectedWorldID = -1;
 	public static Cell[][] map;

@@ -76,15 +76,15 @@ public class Menu implements Disposable {
             }
         });
         start.setX(100);
-        //stage.addActor(start);
+        stage.addActor(start);
         pause = new Button(skin);
         pause.add("Pause");
-       // stage.addActor(pause);
+        stage.addActor(pause);
         pause.setX(200);
         stop = new Button(skin);
         stop.add("Stop");
         stop.setX(300);
-       // stage.addActor(stop);
+        stage.addActor(stop);
 
     }
 

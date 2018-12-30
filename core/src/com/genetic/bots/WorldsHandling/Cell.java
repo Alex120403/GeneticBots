@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.utils.Disposable;
 import com.genetic.bots.BotsHandling.Bot;
 import com.genetic.bots.Paint;
+import com.genetic.bots.Settings;
 
 public class Cell {
     /* Types: 0 - nothing
@@ -70,6 +71,9 @@ public class Cell {
                 break;
             case (4):
                 try {
+                    if (botInCell.isGlowing()) {
+                        Paint.drawCell(glow, x, y,null);
+                    }
                     Paint.drawCell(bot, x, y,botInCell);
                 }
                 catch (Exception e){
@@ -77,8 +81,9 @@ public class Cell {
                 break;
         }
 
-        Paint.drawCell(grid,x,y,null);
-
+        if(Settings.drawGrid) {
+            Paint.drawCell(grid,x,y,null);
+        }
     }
 
     public void update(byte state) {

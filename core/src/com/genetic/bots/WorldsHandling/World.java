@@ -149,6 +149,7 @@ public class World implements Disposable {
             }
         }
 
+<<<<<<< HEAD
         try {
             link.nextPopulation(bestBot.getFitnessFunc());
         } catch (Exception e) {
@@ -156,6 +157,11 @@ public class World implements Disposable {
         }
         Main.worlds[link.getOrder()] = new World(bots,BOTS_COUNT,link,worldUpdater);
 
+=======
+        link.nextPopulation(bestBot.getFitnessFunc());
+        worldUpdater.active = false;
+        Main.worlds[link.getOrder()] = new World(bots,BOTS_COUNT,link);
+>>>>>>> parent of 9e12590... WorldsItem (85%...)
     }
 
     public Cell[][] getMap() {

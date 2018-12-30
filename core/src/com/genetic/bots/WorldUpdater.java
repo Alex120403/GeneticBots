@@ -18,6 +18,7 @@ public class WorldUpdater extends Thread {
     @Override
     public void run() {
         super.run();
+<<<<<<< HEAD
         try {
             while (true) {
                 world.update();
@@ -25,6 +26,15 @@ public class WorldUpdater extends Thread {
             }
         } catch (Exception e) {
             e.printStackTrace();
+=======
+        while (active) {
+            world.update();
+            try {
+                Thread.sleep(1024/Config.SPEED);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+>>>>>>> parent of 9e12590... WorldsItem (85%...)
         }
     }
 
